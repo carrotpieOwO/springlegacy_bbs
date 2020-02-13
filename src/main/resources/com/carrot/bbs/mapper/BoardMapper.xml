@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.bbs.mapper.BoardMapper">
+	<select id="getList" resultType="com.carrot.bbs.dto.BoardVO">
+		<![CDATA[
+		select * from board where bno>0
+		]]>
+		<!-- <![CDATA 통째로 문자열로 인식하라, 특수문자들 이런거도 문자열로 다 인식하게, 보통 셀렉트문 쓸 때 많이 씀 
+		가끔 태그의 특수문자와 쿼리 특수문자가 겹칠수도 있어서! bno>0 이런 쿼리 쓸때. 요즘엔 잘 인식해서 잘 안쓰긴함-->
+		<!-- where bno>0 bno순으로 정렬하기 위함 -->
+	</select>
+	
+	<select id="totalCount" resultType="int">
+		select count(*) from board where bno > 0
+	</select>
+	
+	<!-- mysql 일때 
+	<select id="listPaging" resultType="com.carrot.bbs.dto.BoardVO">
+		<![CDATA[
+		select * from board where bno>0 order by bno desc limit (#{page}-1)*#{perPageNum}, 10
+		]]>
+	</select> -->
+	
+	<select id="listPaging" resultType="com.carrot.bbs.dto.BoardVO">
+		<![CDATA[
+		select * from ( 
+		select /*+INDEX_DESC(board board_pk)*/
+		rownum rn, bno, title, content, writer, regdate, readCount
+		from board where rownum <= #{page}*#{perPageNum} order by bno desc) 
+		where rn>(#{page}-1)*#{perPageNum}
+		]]>
+	</select>
+	
+	<insert id="insert">
+	INSERT INTO board (bno, title, content, writer) VALUES (BOARD_SEQ.NEXTVAL, '${title}', '${content}', '${writer}')
+	</insert>
+	
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="int">
+			select board_seq.nextval from dual
+		</selectKey>
+		insert into board(bno, title, content, writer) values(#{bno}, "#{title}", "#{content}", "#{writer}")
+	</insert>
+	<!-- 가상테이블로 셀렉트할 때 쓰는게 dual -->
+	<!-- selectkey : 셀렉트하기전에 미리 만들어놓기위해( 인서트 하기전에 딴작업할때 bno가 필요할 경우 대비) -->
+	
+	<select id="read" resultType="com.carrot.bbs.dto.BoardVO">
+		<![CDATA[
+		select * from board where bno=#{bno}
+		]]>
+	</select>
+	
+	<update id="update">
+	  update board set title=#{title}, content=#{content}, writer=#{writer} where bno=#{bno}
+	</update>
+	
+	<delete id="delete">
+		delete from board where bno = #{bno}
+	</delete>
+	
+</mapper>
