@@ -14,8 +14,7 @@ import com.carrot.bbs.mapper.BoardMapper;
 public class BoardServiceImpl implements BoardService {
 	@Inject
 	private BoardMapper mapper;
-	
-	
+
 	@Override
 	public List<BoardVO> selectAll() {
 		// TODO Auto-generated method stub
@@ -25,8 +24,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void insert(BoardVO board) {
 		// TODO Auto-generated method stub
-		mapper.insert(board);
-
+		mapper.insertSelectKey(board);
 	}
 
 	@Override
@@ -39,7 +37,6 @@ public class BoardServiceImpl implements BoardService {
 	public void update(BoardVO board) {
 		// TODO Auto-generated method stub
 		mapper.update(board);
-
 	}
 
 	@Override
@@ -51,16 +48,13 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> selectAll(Criteria cri) {
 		// TODO Auto-generated method stub
-		return mapper.listPaging(cri);
+		return mapper.oraListPaging(cri);
 	}
 
 	@Override
 	public int totalCount(Criteria cri) {
 		// TODO Auto-generated method stub
-		
-		return mapper.totalCount(cri);
+		return mapper.totalCount();
 	}
-	
-	
 
 }

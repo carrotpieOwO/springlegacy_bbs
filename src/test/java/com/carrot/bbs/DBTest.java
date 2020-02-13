@@ -12,7 +12,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.carrot.bbs.dto.BoardVO;
+import com.carrot.bbs.dto.PageMaker;
 import com.carrot.bbs.mapper.BoardMapper;
+import com.carrot.bbs.service.BoardService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 //junit: 테스트하는 애
@@ -48,7 +50,5 @@ public class DBTest {
 			System.out.println(list.get(i));
 		}
 	}
-	
-	
 	
 }

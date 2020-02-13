@@ -13,6 +13,6 @@ public interface BoardMapper {
 	public void delete(int bno);
 	public int update(BoardVO board);
 	public void updateReadCount(int bno);
-	public List<BoardVO> listPaging(Criteria cri);
-	public int totalCount(Criteria cri);
+	public List<BoardVO> oraListPaging(Criteria cri);
+	public int totalCount();
 }

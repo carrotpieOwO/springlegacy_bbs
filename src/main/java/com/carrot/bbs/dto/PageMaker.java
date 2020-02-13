@@ -6,9 +6,9 @@ public class PageMaker {
 	private int endPage;
 	private boolean prev;
 	private boolean next;
-	
-	private int displayPageNum=10;
-	
+
+	private int displayPagenNum = 10;
+
 	private Criteria cri;
 
 	public int getTotalCount() {
@@ -17,18 +17,20 @@ public class PageMaker {
 
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
-		calcData(); //페이징 계산 메소드
+		System.out.println("setTotalCount~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		calcData();
 	}
-	
+
 	private void calcData() {
-		endPage = (int)(Math.ceil(cri.getPage()/(double)displayPageNum)*displayPageNum);
-		startPage = (endPage-displayPageNum)+1;
-		int tendPage = (int)(Math.ceil(totalCount)/(double)cri.getPerPageNum());
-		
-		if(endPage>tendPage) endPage = tendPage;
-		prev=startPage==1?false:true;  //스타트페이지가 1일때 prev못하게
-		next=endPage*cri.getPerPageNum()>=totalCount?false:true;
-		
+		System.out.println("cri.getPage : " + cri.getPage());
+		System.out.println("cri.displayPagenNum : " + (double) displayPagenNum);
+		endPage = (int) (Math.ceil(cri.getPage() / (double) displayPagenNum) * displayPagenNum); // 현재 내가 있는 페이지
+		startPage = (endPage - displayPagenNum) + 1;
+		int tendPage = (int) (Math.ceil(totalCount) / (double) cri.getPage());
+		if (endPage > tendPage)
+			endPage = tendPage;
+		prev = startPage == 1 ? false : true;
+		next = endPage * cri.getPageNum() >= totalCount ? false : true;
 	}
 
 	public int getStartPage() {
@@ -39,7 +41,6 @@ public class PageMaker {
 		return endPage;
 	}
 
-
 	public boolean isPrev() {
 		return prev;
 	}
@@ -48,8 +49,8 @@ public class PageMaker {
 		return next;
 	}
 
-	public int getDisplayPageNum() {
-		return displayPageNum;
+	public int getDisplayPagenNum() {
+		return displayPagenNum;
 	}
 
 	public Criteria getCri() {
@@ -59,6 +60,5 @@ public class PageMaker {
 	public void setCri(Criteria cri) {
 		this.cri = cri;
 	}
-	
-	
+
 }

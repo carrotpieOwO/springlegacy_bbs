@@ -13,5 +13,4 @@ public interface BoardService {
 	public void delete(int bno);
 	public List<BoardVO> selectAll(Criteria cri);
 	public int totalCount(Criteria cri);
-	
 }
